@@ -10,8 +10,28 @@ public class Student extends ObjectPlus {
     private String name;
     private Set<Course> courses = new HashSet<>();
 
+    public Student(String name, Set<Course> courses) {
+        try{
+     setName(name);
+     setCourses(courses);}
+        catch(Exception e){
+            e.printStackTrace();
+            removeFromExtent();
+        }
+    }
+
     public Student(String name) {
         this.name = name;
+    }
+
+    public void setName(String name) {
+        if(name == null || name.isEmpty()) throw new IllegalArgumentException("Student name cannot be null or empty");
+        this.name = name;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        if(courses == null || courses.isEmpty()) throw new IllegalArgumentException("Student courses cannot be null or empty");
+        this.courses = courses;
     }
 
     public String getName() {

@@ -8,6 +8,26 @@ import java.util.Set;
 
 public class Book extends ObjectPlus {
     private String title;
+
+    public Book(String title, Set<Loan> loans) {
+        try{
+            setTitle(title);
+            setLoans(loans);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setTitle(String title) {
+        if (title == null || title.equals("") ) throw new NullPointerException("title is null or empty");
+        this.title = title;
+    }
+
+    public void setLoans(Set<Loan> loans) {
+        if (loans == null) throw new NullPointerException("loans is null");
+        this.loans = loans;
+    }
+
     private Set<Loan> loans = new HashSet<>();
 
     public Book(String title) {

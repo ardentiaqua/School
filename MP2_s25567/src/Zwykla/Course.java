@@ -7,6 +7,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Course extends ObjectPlus {
+    public Course(String name, Set<Student> students) {
+     try{
+         setName(name);
+         setStudents(students);
+     }catch(Exception e){
+         e.printStackTrace();
+         removeFromExtent();
+     }
+    }
+
     private String name;
     private Set<Student> students = new HashSet<>();
 
@@ -18,7 +28,7 @@ public class Course extends ObjectPlus {
         return name;
     }
 
-    // 6.1. Getter – bezpieczny
+    // 6.1. Getter
     public Set<Student> getStudents() {
         return Collections.unmodifiableSet(students);
     }
@@ -35,6 +45,16 @@ public class Course extends ObjectPlus {
         if (student == null || !students.contains(student)) return;
         students.remove(student);
         student.removeCourse(this); // referencja zwrotna
+    }
+
+    public void setName(String name) {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Student name cannot be empty");
+        this.name = name;
+    }
+
+    public void setStudents(Set<Student> students) {
+        if (students == null || students.isEmpty()) throw new IllegalArgumentException("Students cannot be empty");
+        this.students = students;
     }
 
     // 6.4. Zastąpienie studenta innym

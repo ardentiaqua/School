@@ -9,16 +9,16 @@ import java.util.TreeMap;
 public class Department extends ObjectPlus {
     private String name;
     private TreeMap<String, Employee> employeesByPesel = new TreeMap<>();
-
-    public Department(String name) {
+//sety zrobic
+    public Department(String name, TreeMap<String, Employee> employeesByPesel) {
         this.name = name;
+        this.employeesByPesel = employeesByPesel;
     }
 
     public void addEmployee(Employee employee) {
         if (employee == null || employeesByPesel.containsKey(employee.getPesel())) {
             throw new IllegalArgumentException("Invalid or duplicate employee.");
         }
-
         employeesByPesel.put(employee.getPesel(), employee);
         employee.setDepartment(this);
     }
@@ -33,6 +33,12 @@ public class Department extends ObjectPlus {
     public Employee getEmployeeByPesel(String pesel) {
         return employeesByPesel.get(pesel);
     }
+
+    public void setName(String name) {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty.");
+        this.name = name;
+    }
+
 
     public Map<String, Employee> getAllEmployees() {
         return Collections.unmodifiableMap(employeesByPesel);
