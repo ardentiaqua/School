@@ -1,4 +1,4 @@
-﻿package Zwykla;
+package Zwykla;
 
 import util.ObjectPlus;
 
@@ -19,7 +19,6 @@ public class Course extends ObjectPlus {
 
     private String name;
     private Set<Student> students = new HashSet<>();
-
     public Course(String name) {
         this.name = name;
     }

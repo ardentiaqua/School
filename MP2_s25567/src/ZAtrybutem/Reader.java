@@ -1,4 +1,4 @@
-﻿package ZAtrybutem;
+package ZAtrybutem;
 
 import util.ObjectPlus;
 

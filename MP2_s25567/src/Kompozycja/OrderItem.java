@@ -1,4 +1,4 @@
-﻿package Kompozycja;
+package Kompozycja;
 
 import util.ObjectPlus;
 

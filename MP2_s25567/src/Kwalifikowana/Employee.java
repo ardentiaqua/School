@@ -1,4 +1,4 @@
-﻿package Kwalifikowana;
+package Kwalifikowana;
 
 import util.ObjectPlus;
 

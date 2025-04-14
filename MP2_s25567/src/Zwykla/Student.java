@@ -1,4 +1,4 @@
-﻿package Zwykla;
+package Zwykla;
 
 import util.ObjectPlus;
 
