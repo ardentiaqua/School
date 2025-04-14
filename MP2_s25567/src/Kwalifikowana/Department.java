@@ -3,14 +3,15 @@
 import util.ObjectPlus;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Department extends ObjectPlus {
     private String name;
-    private TreeMap<String, Employee> employeesByPesel = new TreeMap<>();
+    private HashMap<String, Employee> employeesByPesel = new HashMap<>();
 //sety zrobic
-    public Department(String name, TreeMap<String, Employee> employeesByPesel) {
+    public Department(String name, HashMap<String, Employee> employeesByPesel) {
         this.name = name;
         this.employeesByPesel = employeesByPesel;
     }
@@ -24,9 +25,10 @@ public class Department extends ObjectPlus {
     }
 
     public void removeEmployee(String pesel) {
-        Employee removed = employeesByPesel.remove(pesel);
-        if (removed != null) {
-            removed.setDepartment(null);
+        if(employeesByPesel.containsKey(pesel)){
+            Employee employee = employeesByPesel.get(pesel);
+            employeesByPesel.remove(pesel);
+            employee.setDepartment(null);
         }
     }
 
