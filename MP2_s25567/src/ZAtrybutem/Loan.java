@@ -1,24 +1,57 @@
 ﻿package ZAtrybutem;
+
 import util.ObjectPlus;
 
 import java.time.LocalDate;
 
 public class Loan extends ObjectPlus {
-    private final Reader reader;
-    private final Book book;
-    private final LocalDate loanDate;
-    private final LocalDate returnDeadline;
+    private Reader reader;
+    private Book book;
+    private LocalDate loanDate;
+    private LocalDate returnDeadline;
     private boolean returned;
 
     public Loan(Reader reader, Book book, LocalDate loanDate, LocalDate returnDeadline) {
-        this.reader = reader;
-        this.book = book;
-        this.loanDate = loanDate;
-        this.returnDeadline = returnDeadline;
-        this.returned = false;
+        try {
+            setReader(reader);
+            setBook(book);
+            setLoanDate(loanDate);
+            setReturnDeadline(returnDeadline);
+            setReturned(false);
 
-        reader.addLoan(this);
-        book.addLoan(this);
+            reader.addLoan(this);
+            book.addLoan(this);
+
+        } catch (Exception e) {
+            removeFromExtent();
+        }
+
+
+    }
+
+
+    public void setReader(Reader reader) {
+        if (reader != null) {
+            this.reader = reader;
+        }
+    }
+
+    public void setBook(Book book) {
+        if (reader != null) {
+            this.book = book;
+        }
+    }
+
+    public void delete() {
+        if (reader != null) {
+            reader.removeLoan(this);
+        }
+        if (book != null) {
+            book.removeLoan(this);
+        }
+        this.reader = null;
+        this.book = null;
+        removeFromExtent();
     }
 
     public Reader getReader() {
@@ -41,8 +74,16 @@ public class Loan extends ObjectPlus {
         return returned;
     }
 
-    public void markAsReturned() {
-        this.returned = true;
+    private void setReturned(boolean isReturned) {
+        this.returned = isReturned;
+    }
+
+    private void setReturnDeadline(LocalDate returnDeadline) {
+        this.returnDeadline = returnDeadline;
+    }
+
+    private void setLoanDate(LocalDate loanDate) {
+        this.loanDate = loanDate;
     }
 
     @Override
@@ -54,5 +95,11 @@ public class Loan extends ObjectPlus {
                 ", returnDeadline=" + returnDeadline +
                 ", returned=" + returned +
                 '}';
+    }
+
+    @Override
+    public void removeFromExtent() {
+        super.removeFromExtent();
+        this.delete();
     }
 }
