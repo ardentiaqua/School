@@ -11,10 +11,10 @@ public class Student extends ObjectPlus {
     private Set<Course> courses = new HashSet<>();
 
     public Student(String name, Set<Course> courses) {
-        try{
-     setName(name);
-     setCourses(courses);}
-        catch(Exception e){
+        try {
+            setName(name);
+            setCourses(courses);
+        } catch (Exception e) {
             e.printStackTrace();
             removeFromExtent();
         }
@@ -25,12 +25,13 @@ public class Student extends ObjectPlus {
     }
 
     public void setName(String name) {
-        if(name == null || name.isEmpty()) throw new IllegalArgumentException("Student name cannot be null or empty");
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Student name cannot be null or empty");
         this.name = name;
     }
 
     public void setCourses(Set<Course> courses) {
-        if(courses == null || courses.isEmpty()) throw new IllegalArgumentException("Student courses cannot be null or empty");
+        if (courses == null || courses.isEmpty())
+            throw new IllegalArgumentException("Student courses cannot be null or empty");
         this.courses = courses;
     }
 
@@ -62,5 +63,14 @@ public class Student extends ObjectPlus {
         if (oldCourse == null || newCourse == null || oldCourse.equals(newCourse)) return;
         removeCourse(oldCourse);
         addCourse(newCourse);
+    }
+
+    @Override
+    public void removeFromExtent() {
+        super.removeFromExtent();
+        for (Course course : courses) {
+            course.removeStudent(this);
+
+        }
     }
 }

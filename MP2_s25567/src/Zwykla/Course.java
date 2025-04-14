@@ -8,13 +8,13 @@ import java.util.Set;
 
 public class Course extends ObjectPlus {
     public Course(String name, Set<Student> students) {
-     try{
-         setName(name);
-         setStudents(students);
-     }catch(Exception e){
-         e.printStackTrace();
-         removeFromExtent();
-     }
+        try {
+            setName(name);
+            setStudents(students);
+        } catch (Exception e) {
+            e.printStackTrace();
+            removeFromExtent();
+        }
     }
 
     private String name;
@@ -62,5 +62,13 @@ public class Course extends ObjectPlus {
         if (oldStudent == null || newStudent == null || oldStudent.equals(newStudent)) return;
         removeStudent(oldStudent);
         addStudent(newStudent);
+    }
+
+    @Override
+    public void removeFromExtent() {
+        super.removeFromExtent();
+        for (Student student : students) {
+            student.removeCourse(this);
+        }
     }
 }
