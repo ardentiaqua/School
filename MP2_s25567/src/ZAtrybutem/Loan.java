@@ -42,17 +42,6 @@ public class Loan extends ObjectPlus {
         }
     }
 
-    public void delete() {
-        if (reader != null) {
-            reader.removeLoan(this);
-        }
-        if (book != null) {
-            book.removeLoan(this);
-        }
-        this.reader = null;
-        this.book = null;
-        removeFromExtent();
-    }
 
     public Reader getReader() {
         return reader;
@@ -100,6 +89,13 @@ public class Loan extends ObjectPlus {
     @Override
     public void removeFromExtent() {
         super.removeFromExtent();
-        this.delete();
+        if (reader != null) {
+            reader.removeLoan(this);
+        }
+        if (book != null) {
+            book.removeLoan(this);
+        }
+        this.reader = null;
+        this.book = null;
     }
 }
