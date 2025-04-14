@@ -1,23 +1,30 @@
 ﻿package Kompozycja;
 
-public class OrderItem {
+import util.ObjectPlus;
+
+public class OrderItem extends ObjectPlus {
     private String productName;
     private int quantity;
     private Order order; // referencja do całości (kompozycja)
 
     protected OrderItem(Order order, String productName, int quantity) {
-        if (order == null) {
-            throw new IllegalArgumentException("OrderItem must belong to an Order.");
-        }
-        if (this.order != null) {
-            throw new IllegalStateException("This OrderItem is already part of an Order.");
-        }
+        try {
+            if (order == null) {
+                throw new IllegalArgumentException("OrderItem must belong to an Order.");
+            }
 
-        this.order = order;
-        this.productName = productName;
-        this.quantity = quantity;
+            if (this.order != null) {
+                throw new IllegalStateException("This OrderItem is already part of an Order.");
+            }
 
-        order.addItemInternal(this); // referencja zwrotna
+            this.order = order;
+            this.productName = productName;
+            this.quantity = quantity;
+
+            order.addItemInternal(this); // referencja zwrotna
+        } catch (Exception e) {
+            removeFromExtent();
+        }
     }
 
     public String getProductName() {
@@ -39,5 +46,13 @@ public class OrderItem {
     @Override
     public String toString() {
         return "OrderItem{" + productName + ", qty=" + quantity + '}';
+    }
+
+    @Override
+    public void removeFromExtent() {
+        if (order != null) {
+            order.removeItem(this); // usuwanie powiązania
+        }
+        super.removeFromExtent();
     }
 }

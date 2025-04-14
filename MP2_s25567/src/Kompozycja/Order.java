@@ -1,15 +1,20 @@
 ﻿package Kompozycja;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import util.ObjectPlus;
 
-public class Order {
+import java.util.*;
+
+public class Order extends ObjectPlus {
     private String orderNumber;
-    private Set<OrderItem> items = new HashSet<>();
+    private List<OrderItem> items = new ArrayList<>();
 
     public Order(String orderNumber) {
-        this.orderNumber = orderNumber;
+        try{
+            this.orderNumber = orderNumber;
+        }catch (Exception e){
+            removeFromExtent();
+        }
+
     }
 
     public void addItem(String productName, int quantity) {
@@ -20,17 +25,18 @@ public class Order {
         items.add(item); // dodaje do zbioru tylko z wnętrza klasy OrderItem
     }
 
-    public Set<OrderItem> getItems() {
-        return Collections.unmodifiableSet(items);
+    public List<OrderItem> getItems() {
+        return Collections.unmodifiableList(items);
     }
 
     public void removeItem(OrderItem item) {
-        if (items.remove(item)) {
-            item.destroy(); // zerwij powiązanie z "całością"
-        }
+        items.remove(item);
+        item.destroy(); // usuń referencję do całości
     }
 
-    public void destroy() {
+    @Override
+    public void removeFromExtent() {
+        super.removeFromExtent();
         for (OrderItem item : items) {
             item.destroy(); // usuń referencję do całości
         }
